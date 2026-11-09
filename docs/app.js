@@ -180,8 +180,10 @@ async function setup() {
   }
   const demo = config.mode === "demo";
   text("mode", demo ? "操作範例" : "公開鏈查核");
-  el("notice").hidden = !demo;
+  el("notice").hidden = false;
+  el("launch-record").hidden = demo;
   if (demo) text("notice", "目前是操作範例。登記使用模擬資料，檔案比對使用範例檔。正式存證上線後才會查實際紀錄。");
+  else text("notice", `正式紀錄從 ${config.initial_date} 開始。下方日期是要查核的交易日，不代表當天名單已發布；尚未登記或還沒截止時，會顯示「待確認」。`);
   dateInput.min = config.initial_date;
   if (demo) dateInput.max = config.initial_date;
   const selectedDate = url.searchParams.get("date");
