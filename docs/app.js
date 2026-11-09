@@ -108,7 +108,10 @@ function render(data) {
     ["公開 RPC", data.rpc_hosts.join("、") || "本機模擬資料"],
   ];
   for (const [i, scan] of (row.evidence.snapshots || []).entries()) {
-    entries.push([`來源 ${i + 1} 區塊範圍`, `${scan.scan_from_block} 至 ${scan.scan_to_block}，最終確認至 ${scan.finalized_block}`]);
+    const range = scan.scan_from_block > scan.scan_to_block
+      ? `本期尚無可查詢的區塊，最終確認至 ${scan.finalized_block}`
+      : `${scan.scan_from_block} 至 ${scan.scan_to_block}，最終確認至 ${scan.finalized_block}`;
+    entries.push([`來源 ${i + 1} 區塊範圍`, range]);
   }
   for (const [label, value] of entries) {
     const dt = document.createElement("dt");
