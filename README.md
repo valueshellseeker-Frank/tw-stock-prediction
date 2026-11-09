@@ -4,6 +4,26 @@
 
 正式紀錄從 **2026 年 11 月 11 日**開始。每兩週直接公開的第一期是 **11 月 16 日**，從前一天週日晚上 10 點起發布；其他交易日先公布加密檔。
 
+<!-- daily-records:start -->
+## 每日紀錄
+
+點日期就能開啟當天的 Release，查看封存附件。首頁在每日發布後更新；時間皆為台北時間。
+
+**首頁方便找資料；不可變 Release 保存原檔。** 若當天有更正，日期連到最近發布的版本，前版連結也會保留；正式版仍以鏈上 08:30 前最後一筆為準。
+
+正式紀錄尚未發布。
+
+### 上線測試（不列入正式績效）
+
+| 日期 | 公開狀態 | 查看連結 |
+| --- | --- | --- |
+| [2026-11-10](https://github.com/valueshellseeker-Frank/tw-stock-prediction/releases/tag/deployment-check-2026-11-10) | 加密封存（2026-12-10 18:00 起可解密） | [存證附件](https://github.com/valueshellseeker-Frank/tw-stock-prediction/releases/tag/deployment-check-2026-11-10) |
+
+[系列規則與驗證方式](https://github.com/valueshellseeker-Frank/tw-stock-prediction/releases/tag/series-policy-v2) · [查看全部 Releases](https://github.com/valueshellseeker-Frank/tw-stock-prediction/releases)
+
+這份表格是查閱入口，不是完整性證明。缺交、逾時及所有更正，仍須從系列開始日逐日查核第三方登記紀錄。
+<!-- daily-records:end -->
+
 ## 每個服務能證明什麼？
 
 | 服務 | 能查什麼？ | 怎麼確認？ |
