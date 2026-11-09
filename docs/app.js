@@ -45,12 +45,20 @@ function render(data) {
   const unique = row.checks.unique_official_revision;
   const time = row.checks.premarket_public_commitment;
   const file = row.checks.committed_capsule_unchanged;
-  text("time-question", `${taipei.format(new Date(data.cutoff_utc)).slice(11, 16)} 前有存證嗎？`);
-  status("time-status", time.status, time.status === "pass" ? "有" : undefined);
-  status("unique-status", unique.status, unique.status === "pass" ? "已找到" : undefined);
-  text("time-note", time.registered_at_utc
-    ? `${data.fixture_only ? "範例時間 " : ""}${taipei.format(new Date(time.registered_at_utc))}`
-    : "本期窗口內尚無候選登記");
+  const announcement = data.announcement || {status: "pending"};
+  const publication = file.github_publication || {status: "pending", reason: "需先取得正式存證包"};
+  const combined = (...items) => items.some(x => x.status === "fail") ? "fail"
+    : items.every(x => x.status === "pass") ? "pass" : "pending";
+  const timeState = combined(time, publication, announcement);
+  const uniqueState = combined(unique, announcement);
+  text("time-question", `${taipei.format(new Date(data.cutoff_utc)).slice(11, 16)} 前已登記並公開？`);
+  status("time-status", timeState, timeState === "pass" ? "有" : undefined);
+  status("unique-status", uniqueState, uniqueState === "pass" ? "已找到" : undefined);
+  text("time-note", [
+    time.registered_at_utc ? `鏈上：${taipei.format(new Date(time.registered_at_utc))}` : "鏈上：尚無可確認的登記",
+    publication.published_at_utc ? `GitHub：${taipei.format(new Date(publication.published_at_utc))}` : `GitHub：${publication.reason}`,
+    announcement.status === "pass" ? "系列公告：已核對" : "系列公告：尚未通過查核",
+  ].join("；"));
   text("unique-note", unique.official_cid ? `截止前共 ${unique.registered_revisions_before_cutoff} 筆，取最後一筆`
     : row.candidate ? "請展開下方紀錄查看候選版本" : "本期尚無正式版");
   status("file-status", file.status, file.status === "pass" ? (data.fixture_only ? "範例吻合" : "吻合") : undefined);
@@ -58,7 +66,7 @@ function render(data) {
   text("scan-window", `有效窗口 ${taipei.format(new Date(data.window_start_utc))} 起，至 ${taipei.format(new Date(data.cutoff_utc))} 前。截止前共 ${unique.registered_revisions_before_cutoff} 筆，另列出掃描到的逾時登記。`);
 
   const events = row.superseded.map((event) => [event, "已更新"]);
-  if (row.candidate) events.push([row.candidate, unique.status === "pass" ? "正式版" : "候選版"]);
+  if (row.candidate) events.push([row.candidate, uniqueState === "pass" ? "正式版" : "候選版"]);
   events.push(...row.late.map((event) => [event, "逾時"]));
   el("events").replaceChildren();
   if (!events.length) {
@@ -85,6 +93,13 @@ function render(data) {
   }
 
   el("evidence").replaceChildren();
+  el("publication-links").replaceChildren();
+  if (publication.url) el("publication-links").append(link(publication.url, "查看 GitHub 原始發布紀錄"), "　");
+  if (announcement.url) el("publication-links").append(link(announcement.url, "查看固定系列公告"), "　");
+  const archiveId = file.archive?.object_id;
+  if (/^[A-Za-z0-9_-]{43}$/.test(archiveId || "")) {
+    el("publication-links").append(link(`https://turbo-gateway.com/raw/${archiveId}`, "下載第三方備份原檔"));
+  }
   const entries = [
     ["系列 SHA-256", data.protocol_sha256],
     ["發布者地址", data.registry_location.producer_address],
@@ -187,7 +202,8 @@ async function setup() {
   dateInput.min = config.initial_date;
   if (demo) dateInput.max = config.initial_date;
   const selectedDate = url.searchParams.get("date");
-  dateInput.value = selectedDate || config.initial_date;
+  const today = taipei.format(new Date()).slice(0, 10);
+  dateInput.value = selectedDate || (demo ? config.initial_date : (today > config.initial_date ? today : config.initial_date));
   el("verify").disabled = false;
   text("progress", "選擇交易日開始查核");
   if (demo || selectedDate) start();
