@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="選擇交易日，驗證選股存證時間、正式版本及檔案。">
+  <title>選股存證驗證</title>
+  <link rel="stylesheet" href="./style.css">
+  <script src="./app.js" defer></script>
+</head>
+<body>
+  <header class="masthead"><div class="wrap brand"><span class="mark" aria-hidden="true">✓</span> 選股存證驗證 <span id="mode" class="mode">載入中</span></div></header>
+  <main class="wrap">
+    <section class="intro" aria-labelledby="heading">
+      <p class="eyebrow">公開登記紀錄</p>
+      <h1 id="heading">查驗一天的選股存證</h1>
+      <p>選交易日，按「驗證」，查看是否在截止前存證、哪一份算數，以及檔案有沒有改過。</p>
+      <p><a href="./performance.html">查看策略績效總覽與逐期明細</a></p>
+    </section>
+    <div id="notice" class="notice" hidden></div>
+    <form id="check-form" class="panel controls">
+      <div class="date-control"><label for="session-date">交易日期</label><input id="session-date" type="date" required></div>
+      <button type="submit" id="verify" disabled>驗證</button>
+      <button type="button" id="cancel" class="quiet" hidden>取消</button>
+      <p id="progress" class="progress" role="status" aria-live="polite">正在載入公開系列資料</p>
+    </form>
+    <section id="result" hidden aria-labelledby="result-title">
+      <div class="section-title"><h2 id="result-title">查核結果</h2><button type="button" id="json" class="quiet">下載證據 JSON</button></div>
+      <dl class="checks">
+        <div class="panel"><dt id="time-question">截止前有存證嗎？</dt><dd id="time-status"></dd><p id="time-note"></p></div>
+        <div class="panel"><dt>哪一份是正式版？</dt><dd id="unique-status"></dd><p id="unique-note"></p></div>
+        <div class="panel"><dt>檔案有改過嗎？</dt><dd id="file-status"></dd><p id="file-note"></p></div>
+      </dl>
+      <details class="panel ledger evidence">
+        <summary>查看全部登記與更正</summary>
+        <p id="scan-window" class="muted"></p>
+        <div class="table-scroll" tabindex="0" role="region" aria-label="登記紀錄表格">
+          <table><thead><tr><th scope="col">台北區塊時間</th><th scope="col">判定</th><th scope="col">檔案指紋</th><th scope="col">鏈上交易</th></tr></thead><tbody id="events"></tbody></table>
+        </div>
+      </details>
+      <details class="panel evidence"><summary>系列認證碼與查核來源</summary>
+        <dl id="evidence"></dl>
+        <p class="muted">時間取自區塊標頭。請核對此系列認證碼與首期前公告的紀錄。</p>
+      </details>
+    </section>
+    <footer>本站方便查詢，查核結果仍應以第三方紀錄為準。<a href="https://github.com/valueshellseeker-Frank/tw-stock-prediction-log#不透過本站怎麼自行查證">不透過本站，怎麼自行查證？</a></footer>
+  </main>
+</body>
+</html>
