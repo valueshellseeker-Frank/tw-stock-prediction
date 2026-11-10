@@ -211,7 +211,7 @@ tle --decrypt --chain 52db9ba70e0cc0f6eaf7803dd07447a1f5477735fd3f661792ba94600c
 
 名單必須從這份已核對過的存證檔解出，才能連回當初的登記。只檢查一份事後另外提供的 CSV，無法確認兩者是同一份內容。
 
-到期後不需要發布者提供密碼，但仍要能取得公開備份，而且 drand 必須正常運作。時間鎖到期代表可以解密，不代表 GitHub 會自行新增明文附件。[時間鎖說明](https://docs.drand.love/docs/timelock-encryption/)
+到期後不需要發布者提供密碼，但仍要能取得公開備份，而且 drand 必須正常運作。時間鎖決定何時可以解密；本站的更新程式會在後續執行時，把解出的 CSV 另存到 GitHub，方便直接下載。[時間鎖說明](https://docs.drand.love/docs/timelock-encryption/)
 
 </details>
 
