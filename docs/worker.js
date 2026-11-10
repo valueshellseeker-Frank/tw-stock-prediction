@@ -55,11 +55,28 @@ self.onmessage = async ({data}) => {
     py.globals.set("read_public_json", readPublicJSON);
     py.globals.set("read_archive_base64", readArchiveBase64);
     py.globals.set("report_progress", progress);
+    let storage = {rows: []};
+    try { storage = JSON.parse(new TextDecoder().decode(await localAsset("storage-summary.json"))); } catch {}
+    py.globals.set("storage_json", JSON.stringify(storage));
+    if (data.storageOnly) {
+      py.globals.set("storage_id", data.storageOnly);
+      const result = py.runPython(`
+import json
+from browser_verify import verify_storage_record
+rows = json.loads(storage_json)['rows']
+matches = [r for r in rows if r.get('proof', {}).get('receipt', {}).get('id') == storage_id]
+if len(matches) != 1: raise ValueError('找不到唯一對應的保存證據')
+json.dumps(verify_storage_record(matches[0], read_public_json), ensure_ascii=False)
+`);
+      self.postMessage({storageReport: JSON.parse(result)});
+      return;
+    }
     const report = py.runPython(`
 import json
 from browser_verify import verify
 json.dumps(verify(json.loads(config_json), session, read_public_json, report_progress,
-                  expected_digest=expected_digest, read_archive=read_archive_base64), ensure_ascii=False)
+                  expected_digest=expected_digest, read_archive=read_archive_base64,
+                  storage_records=json.loads(storage_json)['rows']), ensure_ascii=False)
 `);
     self.postMessage({report: JSON.parse(report)});
   } catch (error) {

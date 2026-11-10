@@ -10,6 +10,45 @@ let worker;
 let timer;
 let report;
 
+function storageText(value) {
+  const label = part => ({pass:"通過", fail:"未通過", pending:"待確認"}[part?.status] || "待確認");
+  const accepted = value.receipt?.accepted_at_utc;
+  return `Turbo 簽收：${label(value.receipt)}${accepted ? `（台北 ${taipei.format(new Date(accepted))}）` : ""}；收據與原檔：${label(value.content)}；Arweave 入鏈：${label(value.settlement)}。`;
+}
+
+async function setupStorage() {
+  const response = await fetch('./storage-summary.json', {cache:'no-store'});
+  if (!response.ok) throw new Error('保存證據暫時無法載入');
+  const records = await response.json();
+  for (const row of records.rows || []) {
+    const id = row.proof?.receipt?.id;
+    if (!/^[A-Za-z0-9_-]{43}$/.test(id || '')) continue;
+    const option = document.createElement('option');
+    option.value = id;
+    option.textContent = `${row.session_date} · ${row.original_tag}`;
+    el('storage-select').append(option);
+  }
+  el('storage-check').disabled = !el('storage-select').options.length;
+  text('storage-progress', el('storage-select').options.length ? '尚未重新查核。按鈕會直接讀取第三方資料。' : '目前沒有可重驗的簽收紀錄。');
+}
+
+el('storage-check').addEventListener('click', () => {
+  el('storage-check').disabled = true;
+  text('storage-detail', '');
+  const audit = new Worker('./worker.js');
+  const end = message => { audit.terminate(); clearTimeout(timeout); el('storage-check').disabled = false; text('storage-progress', message); };
+  const timeout = setTimeout(() => end('第三方查詢逾時，入鏈狀態仍待確認，可稍後重試。'), 180000);
+  audit.onmessage = ({data}) => {
+    if (data.progress) text('storage-progress', data.progress);
+    else if (data.storageReport) {
+      text('storage-detail', JSON.stringify(data.storageReport, null, 2));
+      end(storageText(data.storageReport));
+    } else if (data.error) end(`未完成查核：${data.error}`);
+  };
+  audit.onerror = () => end('瀏覽器查核未完成，請稍後重試。');
+  audit.postMessage({config: config || {mode:'live'}, storageOnly:el('storage-select').value});
+});
+
 function text(id, value) {
   el(id).textContent = value;
 }
@@ -51,7 +90,7 @@ function render(data) {
     : items.every(x => x.status === "pass") ? "pass" : "pending";
   const timeState = combined(time, publication, announcement);
   const uniqueState = combined(unique, announcement);
-  text("time-question", `${taipei.format(new Date(data.cutoff_utc)).slice(11, 16)} 前已登記並公開？`);
+  text("time-question", `${taipei.format(new Date(data.cutoff_utc)).slice(11, 16)} 前已定稿？`);
   status("time-status", timeState, timeState === "pass" ? "有" : undefined);
   status("unique-status", uniqueState, uniqueState === "pass" ? "已找到" : undefined);
   text("time-note", [
@@ -63,6 +102,7 @@ function render(data) {
     : row.candidate ? "請展開下方紀錄查看候選版本" : "本期尚無正式版");
   status("file-status", file.status, file.status === "pass" ? (data.fixture_only ? "範例吻合" : "吻合") : undefined);
   text("file-note", file.reason);
+  text("storage-note", storageText(row.checks.external_storage || {}));
   text("scan-window", `有效窗口 ${taipei.format(new Date(data.window_start_utc))} 起，至 ${taipei.format(new Date(data.cutoff_utc))} 前。截止前共 ${unique.registered_revisions_before_cutoff} 筆，另列出掃描到的逾時登記。`);
 
   const events = row.superseded.map((event) => [event, "已更新"]);
@@ -213,3 +253,4 @@ async function setup() {
 }
 
 setup().catch((error) => finish(`待確認。${error.message}`, true));
+setupStorage().catch(error => text('storage-progress', error.message));
