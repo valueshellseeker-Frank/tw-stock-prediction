@@ -35,7 +35,9 @@
 
 **首頁方便找資料；不可變 Release 保存原檔。** 若當天有更正，日期連到最近發布的版本，前版連結也會保留；正式版仍以鏈上 08:30 前最後一筆為準。
 
-正式紀錄尚未發布。
+| 日期 | 公開狀態 | 查看連結 |
+| --- | --- | --- |
+| [2026-11-11](https://github.com/valueshellseeker-Frank/tw-stock-prediction/releases/tag/commit-tw-stock-v2-2026-11-11-16353a1ddd83aff5) | 加密封存（2026-12-11 18:00 起可解密） | [存證附件](https://github.com/valueshellseeker-Frank/tw-stock-prediction/releases/tag/commit-tw-stock-v2-2026-11-11-16353a1ddd83aff5) · [查核](https://valueshellseeker-frank.github.io/tw-stock-prediction/?date=2026-11-11) |
 
 ### 上線測試（不列入正式績效）
 
