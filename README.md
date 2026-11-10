@@ -21,7 +21,7 @@
 | --- | --- | --- |
 | [2026-11-10](https://github.com/valueshellseeker-Frank/tw-stock-prediction/releases/tag/deployment-check-2026-11-10) | 加密封存（2026-12-10 18:00 起可解密） | [存證附件](https://github.com/valueshellseeker-Frank/tw-stock-prediction/releases/tag/deployment-check-2026-11-10) |
 
-[系列規則與驗證方式](https://github.com/valueshellseeker-Frank/tw-stock-prediction/releases/tag/series-policy-v2) · [查看全部 Releases](https://github.com/valueshellseeker-Frank/tw-stock-prediction/releases)
+[系列規則與驗證方式](https://github.com/valueshellseeker-Frank/tw-stock-prediction/releases/tag/series-policy-v2) · [查看全部 Releases](https://github.com/valueshellseeker-Frank/tw-stock-prediction/releases) · [策略績效](https://valueshellseeker-frank.github.io/tw-stock-prediction/performance.html) · [完整期間盤點 JSON](https://valueshellseeker-frank.github.io/tw-stock-prediction/verification-summary.json)
 
 這份表格是查閱入口，不是完整性證明。缺交、逾時及所有更正，仍須從系列開始日逐日查核第三方登記紀錄。
 <!-- daily-records:end -->
