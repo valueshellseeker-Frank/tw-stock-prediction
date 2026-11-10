@@ -6,7 +6,7 @@
   <meta name="description" content="選擇交易日，驗證選股存證時間、正式版本及檔案。">
   <title>選股存證驗證</title>
   <link rel="stylesheet" href="./style.css">
-  <script src="./app.js?v=1a1f0b4f70dbfa8f" defer></script>
+  <script src="./app.js?v=483c763e2cf1a877" defer></script>
 </head>
 <body>
   <header class="masthead"><div class="wrap brand"><span class="mark" aria-hidden="true">✓</span> 選股存證驗證 <span id="mode" class="mode">載入中</span></div></header>
@@ -20,6 +20,13 @@
       <p id="launch-record" hidden><a href="https://github.com/valueshellseeker-Frank/tw-stock-prediction/releases/tag/deployment-check-2026-11-10">查看 11/10 名單的上線驗收紀錄</a>（不列入正式績效）</p>
     </section>
     <div id="notice" class="notice" hidden></div>
+    <section class="panel" aria-labelledby="automatic-title">
+      <h2 id="automatic-title">最近自動更新</h2>
+      <p id="automatic-updated">正在讀取更新紀錄</p>
+      <p id="automatic-official"></p>
+      <p id="automatic-storage"></p>
+      <p class="muted">這是自動整理的摘要；按下方「驗證」，會重新向第三方查核。查核時間晚於開盤不影響事前存證，仍以原始登記、簽收與發布時間判斷。</p>
+    </section>
     <form id="check-form" class="panel controls">
       <div class="date-control"><label for="session-date">交易日期</label><input id="session-date" type="date" required></div>
       <button type="submit" id="verify" disabled>驗證</button>

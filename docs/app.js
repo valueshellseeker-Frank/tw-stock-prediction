@@ -16,6 +16,28 @@ function storageText(value) {
   return `Turbo 簽收：${label(value.receipt)}${accepted ? `（台北 ${taipei.format(new Date(accepted))}）` : ""}；收據與原檔：${label(value.content)}；Arweave 入鏈：${label(value.settlement)}。`;
 }
 
+function renderAutomatic(inventory, storage, refresh) {
+  const checked = refresh.checked_at_utc;
+  text('automatic-updated', checked ? `最近更新：${taipei.format(new Date(checked))}（台北時間）` : '尚未取得自動更新時間');
+  const periods = [...(inventory.periods || [])].sort((a,b) => a.date.localeCompare(b.date));
+  const latest = periods[periods.length-1];
+  const confirmed = latest?.all_required_checks_passed === true && latest?.official_selection_status === 'pass';
+  text('automatic-official', latest ? `${latest.date} 正式版：${confirmed ? '已確認' : '尚待確認或有缺漏'}${latest.status === 'sealed_not_due' ? '；名單仍在加密期' : ''}。` : '尚無已截止交易日的查核結果。');
+  const rows = [...(storage.rows || [])].filter(row => row.session_date).sort((a,b) => a.session_date.localeCompare(b.session_date));
+  const recent = rows[rows.length-1];
+  const state = recent?.verification?.settlement?.status;
+  text('automatic-storage', recent ? `最近存證 ${recent.session_date}：Arweave ${state === 'pass' ? '已確認入鏈' : state === 'fail' ? '查核未通過' : '尚待確認入鏈'}。` : '尚無可顯示的保存紀錄。');
+}
+
+async function setupAutomatic() {
+  const values = await Promise.all(['verification-summary.json','storage-summary.json','refresh-status.json'].map(async name => {
+    const response = await fetch(`./${name}`, {cache:'no-store'});
+    if (!response.ok) throw new Error('自動更新紀錄暫時無法讀取');
+    return response.json();
+  }));
+  renderAutomatic(...values);
+}
+
 async function setupStorage() {
   const response = await fetch('./storage-summary.json', {cache:'no-store'});
   if (!response.ok) throw new Error('保存證據暫時無法載入');
@@ -257,3 +279,4 @@ async function setup() {
 
 setup().catch((error) => finish(`待確認。${error.message}`, true));
 setupStorage().catch(error => text('storage-progress', error.message));
+setupAutomatic().catch(() => text('automatic-updated', '自動更新紀錄暫時無法讀取；仍可使用下方的第三方查核。'));
