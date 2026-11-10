@@ -1,6 +1,6 @@
 # 台股 Top100 選股紀錄
 
-這裡保存每天的選股名單，讓大家查證：**是不是事前發布、當天以哪一版為準，以及內容有沒有被換過。**
+這裡保存每天的選股名單，讓大家確認三件事：**08:30 前已經存證、當天只有一份正式名單、內容沒有被換過。**
 
 快速入口：[每日名單](#每日紀錄) · [查核發布時間與正式版](https://valueshellseeker-frank.github.io/tw-stock-prediction/) · [策略績效](https://valueshellseeker-frank.github.io/tw-stock-prediction/performance.html)
 
@@ -11,7 +11,7 @@
 | 服務 | 能查什麼？ | 怎麼確認？ |
 | --- | --- | --- |
 | **vBase** | 登記時間、當天的正式版 | 每次登記都會在區塊鏈留下時間和檔案指紋。查完當天全部紀錄，取 08:30 前最後一筆。 |
-| **GitHub Releases** | Release 發布時間、附件有沒有被替換 | 查 GitHub 記錄的時間與 Immutable 標記；附件鎖定後不能修改或替換，但這個時間本身無法證明 repo 當時已公開。 |
+| **GitHub Releases** | 發布時間、封存的原始附件 | GitHub 記錄發布時間。標示 Immutable 的附件已鎖定，不能原地修改或換檔。 |
 | **Turbo 簽收** | 服務商何時收到完整檔案 | 核對服務商簽名、簽收時間和檔案 ID，再確認收據對應的就是這份原檔。 |
 | **Arweave** | 原檔已入鏈保存、內容是否一致 | 核對原檔、打包交易的簽名與包含證明，再向公開節點查區塊確認。 |
 | **drand 時間鎖** | 到期後不用我配合，也能看到名單 | 解密資料會在到期後公開，任何人都能用來解開原本的加密檔。 |
@@ -22,11 +22,11 @@
 
 開啟[驗證頁](https://valueshellseeker-frank.github.io/tw-stock-prediction/)，選日期後按「驗證」：
 
-1. **事前時間**：鏈上登記要早於當天台北 08:30，GitHub 的發布時間也要符合截止。另查 Turbo 的有效簽收，確認服務商在截止前已收到同一份檔案；08:30:00 就算逾時。
+1. **08:30 前已存證**：核對鏈上登記、GitHub 發布時間和 Turbo 簽收，確認第三方在截止前已收到同一份原檔。08:30:00 就算逾時。
 2. **唯一正式版**：查完公告位置的全部紀錄，只認截止前最後一筆；開盤前有更正，舊版也查得到。
 3. **原檔沒有被換**：從第三方取回的檔案，要與當初登記的指紋相同，GitHub 原附件也要標示 Immutable。
 
-頁面分開顯示上述三項，以及「外部簽收／檔案對應／入鏈」的結果；「待確認」不算通過。Turbo 簽收證明服務商當時已收件，**不等於有人證明當時能匿名下載**。GitHub 的發布時間也不能單獨證明 repo 當時已公開。加密檔內的名單要到期解密後才能核對，預測好不好則看[完整期間的績效](https://valueshellseeker-frank.github.io/tw-stock-prediction/performance.html)。想跳過本站自行確認，下方也列了第三方查法。
+「待確認」不算通過。加密期間可以先查時間、正式版和原檔指紋；30 天到期後，再核對解出的名單。預測準不準，請看[完整期間的績效](https://valueshellseeker-frank.github.io/tw-stock-prediction/performance.html)。想自行查證，也可以直接使用下方的第三方來源。
 
 <!-- daily-records:start -->
 ## 每日紀錄
@@ -81,19 +81,13 @@
 
 查核要從公告的開始日逐日檢查。漏交、逾時、檔案遺失或解密失敗，都要列出，不能只挑表現好的日期。
 
-## 怎麼查？
-
-[開啟驗證頁](https://valueshellseeker-frank.github.io/tw-stock-prediction/)，選日期、按「驗證」，就能查看當天的結果和更正紀錄。
-
-驗證頁是我提供的查詢工具。**想獨立確認，可以直接查下面的第三方紀錄，不必只相信這個頁面。**
-
 ## 不透過本站，怎麼自行查證？
 
-先開啟 [系列公告](https://github.com/valueshellseeker-Frank/tw-stock-prediction/releases/tag/series-policy-v2)，確認開始日、登記位置和規則。**請先把公告檔和認證碼留存，之後不要改跟著首頁挑另一套系列。** 本系列公告的 SHA-256 是：
+**不必事先來過本站，也不用事先保存程式。** 查核對象就是這個 repo 的每日名單。先到 GitHub 開啟固定的 [系列公告](https://github.com/valueshellseeker-Frank/tw-stock-prediction/releases/tag/series-policy-v2)，核對 Immutable 標記、事前發布時間及附件 `protocol.json`，再依附件中的登記位置查詢。本公告的 SHA-256 是：
 
 `44f2ec481afcb0927d478c16c4db21d901e425799bb2d4345dea2bb952ba52f7`
 
-[保存證據與查核版本](https://github.com/valueshellseeker-Frank/tw-stock-prediction/releases/tag/storage-evidence-v1)另封存系列身分、查核程式與各檔案指紋。這份補充紀錄不重寫原公告，也不改舊預測的發布時間。第三方可下載留存，或依公開規格自行驗證；只在事後相信這個頁面上的認證碼，仍可能被帶到另一套紀錄。
+[保存證據與查核版本](https://github.com/valueshellseeker-Frank/tw-stock-prediction/releases/tag/storage-evidence-v1)保留當時的查核程式及原始保存證據，供需要的人重驗。它是歷史版本，不是使用本站的必要條件。**本頁的文字與結果只是方便查詢，獨立查核應以第三方紀錄和原檔為準。**
 
 接著查三件事：
 
@@ -131,7 +125,7 @@ gh release verify-asset TAG capsule.json -R valueshellseeker-Frank/tw-stock-pred
 
 同樣可以驗證事前公告的 `protocol.json`。這個指令查的是 GitHub 簽發的證明，不使用本站的驗證結果。[GitHub CLI 說明](https://cli.github.com/manual/gh_release_verify-asset)
 
-Immutable 鎖定的是附件與 tag。README、網頁和 Release 說明仍可修改，整筆 Release 也可能被刪除。找不到必要證據時，就應列為無法驗證。[GitHub 官方說明](https://docs.github.com/en/code-security/concepts/supply-chain-security/immutable-releases)
+Immutable 鎖定的是附件與 tag，標題和說明仍可修改。整筆 Release 雖然可以刪除，但 GitHub 不允許重用它原本的 tag；連刪除 repo 後用同名重建，也不能重用。**所以刪除不能把固定公告或原始預測換成另一份；找不到證據就列為無法驗證。** [GitHub 官方說明](https://docs.github.com/en/code-security/concepts/supply-chain-security/immutable-releases)
 
 </details>
 
@@ -149,9 +143,9 @@ Immutable 鎖定的是附件與 tag。README、網頁和 Release 說明仍可修
 3. 驗證 `arweave-item.bin` 的 ANS-104 簽名與 ID，解出內含檔案，與鏈上選定的 `capsule.json` 比對。這一步避免拿別的檔案的真收據來充數。
 4. 從 `https://upload.ardrive.io/v1/tx/檔案ID/status` 找到 `bundleId`，再查 `https://arweave.net/tx/bundleId/status`。`FINALIZED` 只是查詢線索；完整查核還要驗打包交易簽名、資料包含證明及區塊紀錄。[官方驗證說明](https://docs.ar.io/learn/verification/claims-proofs-accountability/)
 
-驗證頁的「重驗保存證據」會在讀者的瀏覽器執行這些查核；證據 JSON 也保留原始簽收和簽署檔案，方便 agent 自行驗證。網頁程式仍由我維護，嚴格查核請使用事前留存的查核版本或其他獨立實作。
+驗證頁的「重驗保存證據」會在讀者的瀏覽器執行這些查核；證據 JSON 也保留原始簽收和簽署檔案，方便 agent 自行驗證。要完全獨立於本站，可依上述官方規格使用其他工具驗簽，不必採信本站顯示的「通過」。
 
-入鏈需要時間，不會為了等待入鏈而耽誤當天存證。每日流程會繼續補查未完成的項目；服務無法查詢或證據不齊，就顯示待確認。區塊確認依賴公開節點，本站不是自行驗證整條 Arweave 共識的節點。
+入鏈需要時間，會另外追蹤，不影響當天先完成存證。簽收證明的是第三方收到原檔的時間，並非歷史匿名下載紀錄；GitHub 的發布時間也不能單獨證明 repo 當時的可見性。
 
 </details>
 
@@ -252,4 +246,4 @@ tle --decrypt --chain 52db9ba70e0cc0f6eaf7803dd07447a1f5477735fd3f661792ba94600c
 
 </details>
 
-在事前固定的系列內，這些紀錄讓事後換名單、藏已登記的版本或刪掉最後一版再挑舊版，都無法通過完整查核。這不代表發布者不能刪網頁、停止更新或另外研究其他模型；遇到缺期就要列出，不能當成沒發生。沒有獨立下載見證時，也不宣稱已證明「截止前任何人都能匿名下載」。預測表現好不好，還是要用完整期間的名單，以一致的方式計算績效。
+只要依公告查完完整紀錄，藏草稿、刪掉最後一版或事後另傳一份，都不能改變當天的正式名單。找不到必要證據就記為無法驗證，不能改挑比較準的舊版。績效也要逐日列出缺期與失敗，不能只展示表現好的日期。

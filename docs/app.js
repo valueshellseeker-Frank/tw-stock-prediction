@@ -88,7 +88,9 @@ function render(data) {
   const publication = file.github_publication || {status: "pending", reason: "需先取得正式存證包"};
   const combined = (...items) => items.some(x => x.status === "fail") ? "fail"
     : items.every(x => x.status === "pass") ? "pass" : "pending";
-  const timeState = combined(time, publication, announcement);
+  const storage = row.checks.external_storage || {};
+  const timeState = combined(time, publication, announcement,
+    storage.receipt || {status:"pending"}, storage.content || {status:"pending"});
   const uniqueState = combined(unique, announcement);
   text("time-question", `${taipei.format(new Date(data.cutoff_utc)).slice(11, 16)} 前已定稿？`);
   status("time-status", timeState, timeState === "pass" ? "有" : undefined);
@@ -96,13 +98,14 @@ function render(data) {
   text("time-note", [
     time.registered_at_utc ? `鏈上：${taipei.format(new Date(time.registered_at_utc))}` : "鏈上：尚無可確認的登記",
     publication.published_at_utc ? `GitHub：${taipei.format(new Date(publication.published_at_utc))}` : `GitHub：${publication.reason}`,
+    storage.receipt?.accepted_at_utc ? `Turbo 收件：${taipei.format(new Date(storage.receipt.accepted_at_utc))}` : "Turbo 收件：尚待核對簽收證據",
     announcement.status === "pass" ? "系列公告：已核對" : "系列公告：尚未通過查核",
   ].join("；"));
   text("unique-note", unique.official_cid ? `截止前共 ${unique.registered_revisions_before_cutoff} 筆，取最後一筆`
     : row.candidate ? "請展開下方紀錄查看候選版本" : "本期尚無正式版");
   status("file-status", file.status, file.status === "pass" ? (data.fixture_only ? "範例吻合" : "吻合") : undefined);
   text("file-note", file.reason);
-  text("storage-note", storageText(row.checks.external_storage || {}));
+  text("storage-note", storageText(storage));
   text("scan-window", `有效窗口 ${taipei.format(new Date(data.window_start_utc))} 起，至 ${taipei.format(new Date(data.cutoff_utc))} 前。截止前共 ${unique.registered_revisions_before_cutoff} 筆，另列出掃描到的逾時登記。`);
 
   const events = row.superseded.map((event) => [event, "已更新"]);

@@ -6,7 +6,7 @@
   <meta name="description" content="選擇交易日，驗證選股存證時間、正式版本及檔案。">
   <title>選股存證驗證</title>
   <link rel="stylesheet" href="./style.css">
-  <script src="./app.js?v=4dfbc54629dd05e8" defer></script>
+  <script src="./app.js?v=1a1f0b4f70dbfa8f" defer></script>
 </head>
 <body>
   <header class="masthead"><div class="wrap brand"><span class="mark" aria-hidden="true">✓</span> 選股存證驗證 <span id="mode" class="mode">載入中</span></div></header>
@@ -33,8 +33,8 @@
         <div class="panel"><dt>哪一份是正式版？</dt><dd id="unique-status"></dd><p id="unique-note"></p></div>
         <div class="panel"><dt>檔案有改過嗎？</dt><dd id="file-status"></dd><p id="file-note"></p></div>
       </dl>
-      <p class="muted">這三項核對鏈上定稿、正式版與原檔；外部保存證據另列在下方。「唯一」只限事先公告的登記位置。加密名單仍須到期解密後核對，存證通過不代表預測有效。</p>
-      <div class="panel"><h3>外部有收到完整檔案嗎？</h3><p id="storage-note">待查核</p><p class="muted">簽收時間證明 Turbo 當時已收下這份檔案；不代表當時已有人匿名下載。入鏈會另外比對證據，不只看服務商的狀態文字。</p></div>
+      <p class="muted">只認公告登記位置在 08:30 前的最後一筆；如果最後一筆有問題，也不能改挑舊版。加密名單到期後再核對解密內容；預測表現請看績效總覽。</p>
+      <div class="panel"><h3>檔案已交給第三方保存嗎？</h3><p id="storage-note">待查核</p><p class="muted">Turbo 的有效簽收證明收到原檔的時間；Arweave 入鏈進度另外列出，不必等入鏈完成才存證。</p></div>
       <p id="publication-links" class="panel"></p>
       <details class="panel ledger evidence">
         <summary>查看全部登記與更正</summary>
@@ -49,7 +49,7 @@
       </details>
     </section>
     <section class="panel" id="storage-panel"><h2>外部保存紀錄</h2><p>選一份紀錄，瀏覽器會重驗服務商簽名、檔案內容及入鏈證據，不直接採用本站的「通過」摘要。這裡只查保存證據，正式版仍要用上方的完整登記查核。</p><select id="storage-select" aria-label="選擇保存紀錄"></select> <button type="button" id="storage-check" disabled>重驗保存證據</button><p id="storage-progress" role="status"></p><pre id="storage-detail" style="white-space:pre-wrap;overflow-wrap:anywhere"></pre><a href="./storage-summary.json">下載原始證據 JSON</a></section>
-    <footer>本站方便查詢，查核結果仍應以第三方紀錄為準。請事先保存系列認證碼與查核程式版本，避免事後被引導到另一套紀錄。<a href="https://github.com/valueshellseeker-Frank/tw-stock-prediction#不透過本站怎麼自行查證">不透過本站，怎麼自行查證？</a></footer>
+    <footer>查核對象是每日名單。本站方便查詢；也可以直接核對 GitHub 的固定公告、鏈上完整紀錄及原檔，不必事先使用或保存本站程式。<a href="https://github.com/valueshellseeker-Frank/tw-stock-prediction#不透過本站怎麼自行查證">不透過本站，怎麼自行查證？</a></footer>
   </main>
 </body>
 </html>
