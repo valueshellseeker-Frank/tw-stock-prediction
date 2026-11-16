@@ -37,6 +37,7 @@
 
 | 日期 | 公開狀態 | 查看連結 |
 | --- | --- | --- |
+| [2026-11-17](https://github.com/valueshellseeker-Frank/tw-stock-prediction/releases/tag/commit-tw-stock-v2-2026-11-17-94a17f947a6335c6) | 加密封存（2026-12-17 18:00 起可解密） | [存證附件](https://github.com/valueshellseeker-Frank/tw-stock-prediction/releases/tag/commit-tw-stock-v2-2026-11-17-94a17f947a6335c6) · [查核](https://valueshellseeker-frank.github.io/tw-stock-prediction/?date=2026-11-17) |
 | [2026-11-16](https://github.com/valueshellseeker-Frank/tw-stock-prediction/releases/tag/commit-tw-stock-v2-2026-11-16-dee0504bdd073dcf) | 名單已公開 | [存證附件](https://github.com/valueshellseeker-Frank/tw-stock-prediction/releases/tag/commit-tw-stock-v2-2026-11-16-dee0504bdd073dcf) · [查核](https://valueshellseeker-frank.github.io/tw-stock-prediction/?date=2026-11-16) |
 | [2026-11-13](https://github.com/valueshellseeker-Frank/tw-stock-prediction/releases/tag/commit-tw-stock-v2-2026-11-13-16135bf4a848f949) | 加密封存（2026-12-13 18:00 起可解密） | [存證附件](https://github.com/valueshellseeker-Frank/tw-stock-prediction/releases/tag/commit-tw-stock-v2-2026-11-13-16135bf4a848f949) · [查核](https://valueshellseeker-frank.github.io/tw-stock-prediction/?date=2026-11-13) |
 | [2026-11-12](https://github.com/valueshellseeker-Frank/tw-stock-prediction/releases/tag/commit-tw-stock-v2-2026-11-12-a4f91c4ecbca26f8) | 加密封存（2026-12-12 18:00 起可解密） | [存證附件](https://github.com/valueshellseeker-Frank/tw-stock-prediction/releases/tag/commit-tw-stock-v2-2026-11-12-a4f91c4ecbca26f8) · [查核](https://valueshellseeker-frank.github.io/tw-stock-prediction/?date=2026-11-12) |
